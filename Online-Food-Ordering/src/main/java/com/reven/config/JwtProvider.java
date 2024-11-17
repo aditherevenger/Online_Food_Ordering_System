@@ -17,16 +17,16 @@ public class JwtProvider {
 
     public String generateToken(Authentication auth) {
         Collection<? extends GrantedAuthority> authorities=auth.getAuthorities();
-        String role = populateAuthorities(authorities);
+        String roles = populateAuthorities(authorities);
 
         String jwt= Jwts.builder().setIssuedAt(new Date())
                 .setExpiration((new Date(new Date().getTime()+86400000)))
                 .claim("email", auth.getName())
-                .claim("authorities",role)
+                .claim("authorities",roles)
                 .signWith(key)
                 .compact();
 
-        return null;
+        return jwt;
     }
 
     public String getEmailFromJwtToken(String jwt) {
@@ -39,12 +39,12 @@ public class JwtProvider {
     }
 
     private String populateAuthorities(Collection<? extends GrantedAuthority> authorities) {
-        Set<String> auth=new HashSet<>();
+        Set<String> auths=new HashSet<>();
 
         for(GrantedAuthority authority:authorities) {
-            auth.add(authority.getAuthority());
+            auths.add(authority.getAuthority());
 
         }
-        return String.join(",", auth);
+        return String.join(",", auths);
     }
 }

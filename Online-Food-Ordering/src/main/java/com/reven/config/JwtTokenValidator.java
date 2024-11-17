@@ -29,6 +29,8 @@ public class JwtTokenValidator extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         String jwt=request.getParameter(JwtConstant.JWT_HEADER);
 
+        //Bearer Token
+
         if(jwt!=null) {
             jwt=jwt.substring(7);
 
@@ -43,6 +45,9 @@ public class JwtTokenValidator extends OncePerRequestFilter {
                 Authentication authentication=new UsernamePasswordAuthenticationToken(email,null,auth);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
+
+            //ROLE_CUSTOMER,ROLE_ADMIN
+
             catch(Exception e){
                 throw new BadCredentialsException("Invalid token....");
             }
