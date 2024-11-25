@@ -48,9 +48,9 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<AuthResponse>createUserHandler(@RequestBody User user) throws Exception {
 
-        User isEmailExists = userRepository.findByEmail(user.getEmail());
-        if(isEmailExists != null) {
-            throw new Exception("Email Alredy been used with other account");
+        User isEmailExist = userRepository.findByEmail(user.getEmail());
+        if(isEmailExist != null) {
+            throw new Exception("Email already been used with other account");
         }
 
         User createdUser = new User();
@@ -91,7 +91,7 @@ public class AuthController {
 
         AuthResponse authResponse = new AuthResponse();
         authResponse.setJwt(jwt);
-        authResponse.setMessage("Register Success");
+        authResponse.setMessage("Login Success");
         authResponse.setRole(USER_ROLE.valueOf(role));
 
         return new ResponseEntity<>(authResponse, HttpStatus.OK);
